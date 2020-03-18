@@ -1,0 +1,16 @@
+<view class="layout">
+  <view>
+    <text class='text'>商家登录</text>
+    <view class="mobile">
+      <input class="input" type="email" bindinput="getEmail" placeholder="账号" placeholder-class="placeholder" auto-focus />
+    </view>
+    <view class="mobile">
+    <input class="input" type="password" bindinput="getPassword" placeholder="密码" placeholder-class="placeholder" auto-focus />
+    </view>
+    <view>
+      <form bindsubmit="formSubmit" report-submit="true" report-submit-timeout="600000">
+        <button form-type="submit" class="login-button">登录</button>
+      </form>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,47 @@
+/**index.wxss**/
+
+.container {
+  margin-left: 2vw;
+  margin-right: 2vw;
+}
+
+.good-item {
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  border-radius: 5px;
+  background: white;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.good-item view:first-child {
+  width: 20vw;
+}
+
+.good-item view:last-child {
+  display: flex;
+  flex-direction: column;
+  width: 65vw;
+}
+
+.logo_view {
+  display: flex;
+  height: 20vw;
+  width: 20vw;
+  justify-content: center;
+  margin-right: 5vw;
+}
+
+.logo_view image {
+  width: 20vw;
+  height: 20vw;
+}
+
+.detail {
+  font-size: 12px;
+}
+
+.price-text {
+  color: #f00;
+}
