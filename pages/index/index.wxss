@@ -39,9 +39,16 @@
 }
 
 .detail {
-  font-size: 12px;
+  font-size: 13px;
+  display: flex;
+  justify-content: center;
+}
+
+.detail text {
+  margin: 3px 0;
 }
 
 .price-text {
   color: #f00;
+  font-weight: 600;
 }

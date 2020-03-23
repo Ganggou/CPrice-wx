@@ -3,15 +3,15 @@
   <view wx:for='{{goods}}' wx:key="id">
     <view class='good-item' data-id='{{item.id}}'>
       <view class="logo_view">
-        <image mode="widthFix" src="{{item.logo ? item.logo : '../imgs/nodata.png'}}" />
+        <image mode="widthFix" src="{{item.image ? item.image : '../imgs/nodata.png'}}" />
       </view>
-      <view>
-        <text>{{item.name ? item.name : '暂无信息'}}</text>
-        <view class="detail">
-        价格：
-          <text wx:if='{{item.price}}' class='price-text'>{{item.price}}</text>
+      <view class="detail">
+        <text>商品：{{item.name}}</text>
+        <view>
+          <span>价格：</span>
+          <span class='price-text'>${{item.threshold}}</span>
         </view>
-        <text class="detail" wx:if='{{item.description}}'>{{item.description}}</text>
+        <text>更新时间：{{item.updated_at}}</text>
       </view>
     </view>
   </view>

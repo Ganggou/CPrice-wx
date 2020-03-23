@@ -2,6 +2,7 @@
 //获取应用实例
 const app = getApp()
 const qiniuUploader = require("../../utils/qiniuUploader")
+const util = require('../../utils/util.js')
 
 Page({
   data: {
@@ -9,7 +10,7 @@ Page({
     userInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
-    goods: [{ id: 1, logo: 'https://images-na.ssl-images-amazon.com/images/I/51ZIQxjxTxL._SS160_.jpg', name: '健身环', price: 277.99, description: 'Arrives between Mar. 26 - April 3' }, { id: 2, logo: 'https://images-na.ssl-images-amazon.com/images/I/41BN3S9T1ZL._SS160_.jpg', name: '动森', price: 464.44, description: 'Arrives between March 24-26.'}],
+    goods: [],
     self: {}
   },
   //事件处理函数
@@ -100,6 +101,7 @@ Page({
     })
   },
   onShow: function() {
+    this.fetchGoods()
   },
   tryLogin: function () {
     var that = this
@@ -126,6 +128,21 @@ Page({
       }
     })
     return false
+  },
+  fetchGoods: function() {
+    var that = this
+    wx.request({
+      url: app.globalData.rootUrl + 'data',
+      method: 'GET',
+      success: function (res) {
+        var goods = res.data.data
+        for (var i = 0; i < goods.length; i++) {
+          goods[i].updated_at = util.formatTime(new Date(goods[i].updated_at))
+        }
+        that.setData({
+          goods: goods
+        })
+      }
+    })
   }
-
 })

@@ -3,7 +3,7 @@ App({
     loginStatus: false,
     token: '',
     self: null,
-    rootUrl: 'https://api.lingtiexpress.paiyou.co/',
+    rootUrl: 'https://www.tmdogs.xyz/',
     // rootUrl: 'http://localhost:82/',
     wx_code: '',
     cart: {},

@@ -7,7 +7,7 @@
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "灵缇点餐",
+    "navigationBarTitleText": "CPrice",
     "navigationBarTextStyle": "black"
   },
   "sitemapLocation": "sitemap.json"
