@@ -13,15 +13,8 @@ Page({
     goods: [],
     self: {}
   },
-  //事件处理函数
-  bindViewTap: function() {
-    wx.navigateTo({
-      url: '../logs/logs'
-    })
-  },
   onLoad: function() {
     var that = this
-    var role = wx.getStorageSync('role')
     if (app.globalData.userInfo) {
       this.setData({
         userInfo: app.globalData.userInfo,
@@ -48,21 +41,12 @@ Page({
         }
       })
     }
-    if (wx.openBluetoothAdapter) {
-      wx.openBluetoothAdapter()
-    } else {
-      // 如果希望用户在最新版本的客户端上体验您的小程序，可以这样子提示
-      wx.showModal({
-        title: '提示',
-        content: '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。'
-      })
-    }
     wx.login({
       success: function (res) {
         app.globalData.wx_code = res.code
         if (res.code) {
           wx.request({
-            url: app.globalData.rootUrl + role + '/verifications/login_state',
+            url: app.globalData.rootUrl + 'users/verifications/login_state',
             method: 'GET',
             header: {
               'content-type': 'application/json', // 默认值
@@ -72,23 +56,10 @@ Page({
               if (res.data.ok) {
                 app.globalData.loginStatus = true
                 app.globalData.self = res.data.self
-                that.loadData()
               } else {
                 wx.removeStorageSync('jwt')
                 app.globalData.loginStatus = false
-                if (role == 'users') {
-                  var tryTime = 3
-                  while (tryTime > 0) {
-                    if (that.tryLogin()) {
-                      break;
-                    }
-                    tryTime -= 1
-                  }
-                } else {
-                  wx.navigateTo({
-                    url: '/pages/merLogin/merLogin',
-                  })
-                }
+                that.tryLogin(0)
               }
             },
             fail() {
@@ -103,7 +74,10 @@ Page({
   onShow: function() {
     this.fetchGoods()
   },
-  tryLogin: function () {
+  tryLogin: function (looptime) {
+    if (looptime > 3) {
+      return
+    }
     var that = this
     wx.request({
       url: app.globalData.rootUrl + 'users/sign_in',
@@ -116,18 +90,16 @@ Page({
           wx.setStorageSync('jwt', res.header.Authorization)
           app.globalData.loginStatus = true
           app.globalData.self = res.data.self
-          that.loadData()
-          return true
         } else {
           wx.login({
             success: function (res) {
               app.globalData.wx_code = res.code
+              that.tryLogin(looptime + 1)
             }
           })
         }
       }
     })
-    return false
   },
   fetchGoods: function() {
     var that = this
@@ -135,13 +107,15 @@ Page({
       url: app.globalData.rootUrl + 'data',
       method: 'GET',
       success: function (res) {
-        var goods = res.data.data
-        for (var i = 0; i < goods.length; i++) {
-          goods[i].updated_at = util.formatTime(new Date(goods[i].updated_at))
+        if (res.data.ok) {
+          var goods = res.data.data
+          for (var i = 0; i < goods.length; i++) {
+            goods[i].updated_at = util.formatTime(new Date(goods[i].updated_at))
+          }
+          that.setData({
+            goods: goods
+          })
         }
-        that.setData({
-          goods: goods
-        })
       }
     })
   }

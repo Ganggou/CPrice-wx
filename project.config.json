@@ -15,7 +15,7 @@
 	"compileType": "miniprogram",
 	"libVersion": "2.3.0",
 	"appid": "wxc176485d17b65f08",
-	"projectname": "switch-wx",
+	"projectname": "CPrice-wx",
 	"debugOptions": {
 		"hidedInDevtools": []
 	},

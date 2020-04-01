@@ -3,21 +3,15 @@ App({
     loginStatus: false,
     token: '',
     self: null,
-    rootUrl: 'https://www.tmdogs.xyz/',
-    // rootUrl: 'http://localhost:82/',
+    //rootUrl: 'https://www.tmdogs.xyz/',
+    rootUrl: 'http://localhost:82/',
     wx_code: '',
-    cart: {},
     qiniuToken: '',
     qiniuHost: ''
   },
   onLaunch: function () {
     // 展示本地存储能力
     var that = this
-    var role = wx.getStorageSync('role')
-    if (!role) {
-      role = 'users'
-      wx.setStorageSync('role', role)
-    }
 
     // 获取用户信息
     wx.getSetting({
