@@ -13,7 +13,7 @@
 		"autoAudits": false
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.3.0",
+	"libVersion": "2.10.4",
 	"appid": "wxc176485d17b65f08",
 	"projectname": "CPrice-wx",
 	"debugOptions": {

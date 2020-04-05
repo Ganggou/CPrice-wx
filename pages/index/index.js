@@ -16,7 +16,8 @@ Page({
     self: {},
     selectedGoodId: "",
     taskValue: null,
-    showModalStatus: false
+    showModalStatus: false,
+    tmpIds: []
   },
   onLoad: function() {
     var that = this
@@ -75,10 +76,10 @@ Page({
         }
       }
     })
+    that.fetchTemplateids()
   },
   onShow: function() {
     this.fetchGoods()
-    this.fetchTasks()
   },
   tryLogin: function (looptime) {
     if (looptime > 3) {
@@ -149,8 +150,19 @@ Page({
       },
       success: function (res) {
         if (res.data.ok) {
-          var tasks = res.data.data
           that.reloadTasks(res.data.data)
+        }
+      }
+    })
+  },
+  fetchTemplateids: function () {
+    var that = this
+    wx.request({
+      url: app.globalData.rootUrl + 'fetchTemplateIds',
+      method: 'GET',
+      success: function (res) {
+        if (res.data.ok) {
+          that.setData({ tmpIds: res.data.ids })
         }
       }
     })
@@ -168,7 +180,7 @@ Page({
       goods: goods
     })
   },
-  sub: function (e) {
+  subModal: function (e) {
     var that = this
     var goodId = e.currentTarget.dataset.id
     this.setData({
@@ -211,15 +223,27 @@ Page({
       }
     })
   },
-  formSubmit: function (e) {
-    var formId = e.detail.formId
+  sub: function () {
+    var that = this
+    wx.requestSubscribeMessage({
+      tmplIds: that.data.tmpIds,
+      success(res) {
+        for (var i = 0; i < that.data.tmpIds.length; i++) {
+          if (res[that.data.tmpIds[i]] !== "accept") {
+            return
+          }
+        }
+        that.createTask()
+      }
+    })
+  },
+  createTask: function() {
     var that = this
     wx.request({
       url: app.globalData.rootUrl + 'tasks',
       method: 'POST',
       data: {
         good_id: that.data.selectedGoodId,
-        form_id: formId,
         match_value: that.data.taskValue * 100
       },
       header: {

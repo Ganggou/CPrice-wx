@@ -14,29 +14,28 @@
         <text>更新时间：{{item.updated_at}}</text>
       </view>
       <view class="sub-container">
-        <image mode="widthFix" src="{{item.state == 'awake' ? '../imgs/sub.png' : '../imgs/tosub.png'}}" bindtap="sub" data-id="{{item.id}}" data-statu="open"/>
+        <image mode="widthFix" src="{{item.state == 'awake' ? '../imgs/sub.png' : '../imgs/tosub.png'}}" bindtap="subModal" data-id="{{item.id}}" data-statu="open"/>
       </view>
     </view>
   </view>
  
   <view class="drawer_screen" bindtap="cancel" wx:if="{{showModalStatus}}"></view>
   <view animation="{{animationData}}" class="drawer_box" wx:if="{{showModalStatus}}">
-    <view class="drawer_title">订阅{{goods[selectedGoodId].name}}</view>
-    <view class="drawer_content">
-      <view class="top grid">
-        <label class="title">价格界限：</label>
-        <label class="currency">{{goods[selectedGoodId].currency}}</label>
-        <input class="input_base input_h30" type="digit" name="rName" value="{{taskValue}}" bindinput="onTaskInputChange"></input>
-      </view>
+    <view class="drawer_title">订阅商品</view>
+    <view class="top grid">
+      <label class="title">订阅价格：</label>
+      <label class="currency">{{goods[selectedGoodId].currency}}</label>
+      <input class="input_base input_h30" type="digit" name="rName" value="{{taskValue}}" bindinput="onTaskInputChange"></input>
     </view>
-     <view class="tip">一周内价格低于界限将通知用户</view>
-     <form bindsubmit="formSubmit">
-      <view class="btn-group">
-        <button class="btn cancel" bindtap="cancel" data-statu="close">取消</button>
-        <button class="btn unsub" bindtap="unsub">退订</button>
-        <button class="btn sub" type="button" form-type="submit">订阅</button>
-      </view>
-     </form>
+    <view class="tip">
+      <view>低于当前订阅价格，小程序会通知你</view>
+      <view>订阅通知有效期暂定为1周</view>
+    </view>
+    <view class="btn-group">
+      <view class="btn cancel" bindtap="cancel" data-statu="close">取消</view>
+      <view class="btn unsub" bindtap="unsub">退订</view>
+      <view class="btn sub" bindtap="sub">订阅</view>
+    </view>
   </view>
   <view class="footer">
     Power by Switch游戏速报

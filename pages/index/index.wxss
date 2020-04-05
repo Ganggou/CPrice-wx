@@ -101,10 +101,6 @@
   font: 20px "microsoft yahei";
   text-align: center;
 }
-.drawer_content {
-  height: 60px;
-  overflow-y: scroll; /*超出父盒子高度可滚动*/
-}
 
 .btn-group {
   display: flex;
@@ -116,6 +112,7 @@
   width: 30vw;
   font: 18px "microsoft yahei";
   text-align: center;
+  border: 1px solid #ddc;
 }
 
 .cancel {
@@ -156,8 +153,9 @@
 
 .tip {
   text-align: center;
-  font: 600 22rpx/30px "microsoft yahei";
-  margin-bottom: 5px;
+  font: 600 13px "microsoft yahei";
+  margin-top: 20px;
+  margin-bottom: 20px;
   color: #888;
 }
  
