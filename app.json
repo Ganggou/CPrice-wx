@@ -1,13 +1,12 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/logs/logs",
-    "pages/merLogin/merLogin"
+    "pages/logs/logs"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "CPrice",
+    "navigationBarTitleText": "好价速报",
     "navigationBarTextStyle": "black"
   },
   "sitemapLocation": "sitemap.json"

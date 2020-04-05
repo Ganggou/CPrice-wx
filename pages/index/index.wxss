@@ -3,6 +3,7 @@
 .container {
   margin-left: 2vw;
   margin-right: 2vw;
+  min-height: 100vh;
 }
 
 .good-item {
@@ -19,12 +20,6 @@
   width: 20vw;
 }
 
-.good-item view:last-child {
-  display: flex;
-  flex-direction: column;
-  width: 65vw;
-}
-
 .logo_view {
   display: flex;
   height: 20vw;
@@ -39,9 +34,12 @@
 }
 
 .detail {
+  width: 64vw;
   font-size: 13px;
   display: flex;
   justify-content: center;
+  flex-direction: column;
+  margin-right: 5vw;
 }
 
 .detail text {
@@ -52,3 +50,144 @@
   color: #f00;
   font-weight: 600;
 }
+
+.sub-container {
+  width: 6vw;
+}
+
+.sub-container image {
+  width: 6vw;
+  height: 6vw;
+}
+
+.footer {
+  width: 100%;
+  position: absolute;
+  bottom: 10px;
+  font-size: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+ 
+/*mask*/
+.drawer_screen {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  background: #000;
+  opacity: 0.5;
+  overflow: hidden;
+}
+ 
+/*content*/
+.drawer_box {
+  width: 90vw;
+  overflow: hidden;
+  position: fixed;
+  top: 50%;
+  left: 0;
+  z-index: 1001;
+  background: #FAFAFA;
+  margin: -150px 5vw 0 5vw;
+  border-radius: 7px;
+}
+ 
+.drawer_title{
+  padding:15px;
+  font: 20px "microsoft yahei";
+  text-align: center;
+}
+.drawer_content {
+  height: 60px;
+  overflow-y: scroll; /*超出父盒子高度可滚动*/
+}
+
+.btn-group {
+  display: flex;
+  flex-direction: row;
+}
+ 
+.btn{
+  padding: 10px;
+  width: 30vw;
+  font: 18px "microsoft yahei";
+  text-align: center;
+}
+
+.cancel {
+  color: #666;
+}
+
+.unsub {
+  color: #f00;
+}
+
+.sub {
+  color: #3CC51F;
+}
+ 
+.top{
+	padding-top:8px;
+}
+.bottom {
+	padding-bottom:8px;
+}
+.title {
+	height: 30px;
+	line-height: 30px;
+	width: 20vw;
+  margin-left: 5vw;
+	text-align: center;
+	display: inline-block;
+	font: 300 28rpx/30px "microsoft yahei";
+}
+
+.currency {
+  width: 5vw;
+  text-align: right;
+  padding-right: 2px;
+  color: #f00;
+  font: 600 28rpx/30px "microsoft yahei";
+}
+
+.tip {
+  text-align: center;
+  font: 600 22rpx/30px "microsoft yahei";
+  margin-bottom: 5px;
+  color: #888;
+}
+ 
+.input_base {
+	border: 2rpx solid #ccc;
+	padding-left: 10rpx;
+	width: 55vw;
+}
+.input_h30{
+	height: 30px;
+	line-height: 30px;
+}
+.input_h60{
+	height: 60px;
+}
+.input_view{
+	font: 12px "microsoft yahei";
+	background: #fff;
+	color:#000;
+	line-height: 30px;
+}
+input {
+	font: 12px "microsoft yahei";
+	background: #fff;
+	color:#000 ;
+}
+radio{
+	margin-right: 20px;
+}
+.grid { display: -webkit-box; display: box; }
+.fl { float: left;}
+.fr { float: right;}
+    

@@ -9,10 +9,37 @@
         <text>商品：{{item.name}}</text>
         <view>
           <span>价格：</span>
-          <span class='price-text'>${{item.threshold}}</span>
+          <span class='price-text'>{{item.currency}}{{item.price}}</span>
         </view>
         <text>更新时间：{{item.updated_at}}</text>
       </view>
+      <view class="sub-container">
+        <image mode="widthFix" src="{{item.state == 'awake' ? '../imgs/sub.png' : '../imgs/tosub.png'}}" bindtap="sub" data-id="{{item.id}}" data-statu="open"/>
+      </view>
     </view>
   </view>
+ 
+  <view class="drawer_screen" bindtap="cancel" wx:if="{{showModalStatus}}"></view>
+  <view animation="{{animationData}}" class="drawer_box" wx:if="{{showModalStatus}}">
+    <view class="drawer_title">订阅{{goods[selectedGoodId].name}}</view>
+    <view class="drawer_content">
+      <view class="top grid">
+        <label class="title">价格界限：</label>
+        <label class="currency">{{goods[selectedGoodId].currency}}</label>
+        <input class="input_base input_h30" type="digit" name="rName" value="{{taskValue}}" bindinput="onTaskInputChange"></input>
+      </view>
+    </view>
+     <view class="tip">一周内价格低于界限将通知用户</view>
+     <form bindsubmit="formSubmit">
+      <view class="btn-group">
+        <button class="btn cancel" bindtap="cancel" data-statu="close">取消</button>
+        <button class="btn unsub" bindtap="unsub">退订</button>
+        <button class="btn sub" type="button" form-type="submit">订阅</button>
+      </view>
+     </form>
+  </view>
+  <view class="footer">
+    Power by Switch游戏速报
+  </view>
 </view>
+

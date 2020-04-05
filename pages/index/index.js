@@ -10,8 +10,13 @@ Page({
     userInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
-    goods: [],
-    self: {}
+    goods: {},
+    platforms: [],
+    tasks: {},
+    self: {},
+    selectedGoodId: "",
+    taskValue: null,
+    showModalStatus: false
   },
   onLoad: function() {
     var that = this
@@ -73,6 +78,7 @@ Page({
   },
   onShow: function() {
     this.fetchGoods()
+    this.fetchTasks()
   },
   tryLogin: function (looptime) {
     if (looptime > 3) {
@@ -101,22 +107,188 @@ Page({
       }
     })
   },
+  fetchPlatforms: function() {
+    var that = this
+    wx.request({
+      url: app.globalData.rootUrl + 'platforms',
+      method: 'GET',
+      success: function (res) {
+      }
+    })
+  },
   fetchGoods: function() {
     var that = this
     wx.request({
-      url: app.globalData.rootUrl + 'data',
+      url: app.globalData.rootUrl + 'goods',
       method: 'GET',
       success: function (res) {
         if (res.data.ok) {
           var goods = res.data.data
+          var tmp = {}
           for (var i = 0; i < goods.length; i++) {
             goods[i].updated_at = util.formatTime(new Date(goods[i].updated_at))
+            goods[i].price /= 100.0
+            tmp[goods[i].id] = goods[i]
           }
           that.setData({
-            goods: goods
+            goods: tmp
+          })
+          that.fetchTasks()
+        }
+      }
+    })
+  },
+  fetchTasks: function () {
+    var that = this
+    wx.request({
+      url: app.globalData.rootUrl + 'tasks',
+      method: 'GET',
+      header: {
+        'content-type': 'application/json', // 默认值
+        'Authorization': wx.getStorageSync('jwt')
+      },
+      success: function (res) {
+        if (res.data.ok) {
+          var tasks = res.data.data
+          that.reloadTasks(res.data.data)
+        }
+      }
+    })
+  },
+  reloadTasks: function (tasks) {
+    var tmp = {}
+    var goods = this.data.goods
+    for (var i = 0; i < tasks.length; i++) {
+      tasks[i].match_value /= 100.0
+      tmp[tasks[i].good_id] = tasks[i]
+      goods[tasks[i].good_id]['state'] = tasks[i].state 
+    }
+    this.setData({
+      tasks: tmp,
+      goods: goods
+    })
+  },
+  sub: function (e) {
+    var that = this
+    var goodId = e.currentTarget.dataset.id
+    this.setData({
+      selectedGoodId: goodId,
+      taskValue: that.data.tasks[goodId] ? that.data.tasks[goodId].match_value : null
+    })
+    this.powerDrawer(e.currentTarget.dataset.statu)
+  },
+  onTaskInputChange: function (e) {
+    this.setData({
+      taskValue: e.detail.value
+    })
+  },
+  cancel: function () {
+    this.powerDrawer('close')
+  },
+  unsub: function () {
+    var that = this
+    wx.request({
+      url: app.globalData.rootUrl + 'tasks/sleep',
+      method: 'POST',
+      data: {
+        id: that.data.selectedGoodId
+      },
+      header: {
+        'content-type': 'application/json', // 默认值
+        'Authorization': wx.getStorageSync('jwt')
+      },
+      success: function (res) {
+        if (res.data.ok) {
+          that.powerDrawer('close')
+          that.reloadTasks(res.data.data)
+        } else {
+          wx.showToast({
+            icon: 'none',
+            duration: 1200,
+            title: res.data.message
           })
         }
       }
     })
+  },
+  formSubmit: function (e) {
+    var formId = e.detail.formId
+    var that = this
+    wx.request({
+      url: app.globalData.rootUrl + 'tasks',
+      method: 'POST',
+      data: {
+        good_id: that.data.selectedGoodId,
+        form_id: formId,
+        match_value: that.data.taskValue * 100
+      },
+      header: {
+        'content-type': 'application/json', // 默认值
+        'Authorization': wx.getStorageSync('jwt')
+      },
+      success: function (res) {
+        if (res.data.ok) {
+          that.powerDrawer('close')
+          that.reloadTasks(res.data.data)
+        }
+        wx.showToast({
+          icon: 'none',
+          duration: 1200,
+          title: res.data.message
+        })
+      }
+    })
+  },
+  powerDrawer: function (status) {
+    var currentStatu = status;
+    this.util(currentStatu)
+  },
+  util: function (currentStatu) {
+    /* 动画部分 */
+    // 第1步：创建动画实例 
+    var animation = wx.createAnimation({
+      duration: 200,  //动画时长
+      timingFunction: "linear", //线性
+      delay: 0  //0则不延迟
+    });
+
+    // 第2步：这个动画实例赋给当前的动画实例
+    this.animation = animation;
+
+    // 第3步：执行第一组动画
+    animation.opacity(0).rotateX(-100).step();
+
+    // 第4步：导出动画对象赋给数据对象储存
+    this.setData({
+      animationData: animation.export()
+    })
+
+    // 第5步：设置定时器到指定时候后，执行第二组动画
+    setTimeout(function () {
+      // 执行第二组动画
+      animation.opacity(1).rotateX(0).step();
+      // 给数据对象储存的第一组动画，更替为执行完第二组动画的动画对象
+      this.setData({
+        animationData: animation
+      })
+
+      //关闭
+      if (currentStatu == "close") {
+        this.setData(
+          {
+            showModalStatus: false
+          }
+        );
+      }
+    }.bind(this), 200)
+
+    // 显示
+    if (currentStatu == "open") {
+      this.setData(
+        {
+          showModalStatus: true
+        }
+      );
+    }
   }
 })
