@@ -189,3 +189,34 @@ radio{
 .fl { float: left;}
 .fr { float: right;}
     
+.scroll-tab {
+  display: flex;
+  flex-direction: row;
+}
+
+.scroll-tag {
+  display: flex;
+  flex-direction: row;
+  border-radius: 5px;
+}
+
+.tab-item {
+  padding: 10px;
+  margin: 0 10px;
+  font-weight: 500;
+}
+
+.selected-tab {
+  color: #f37c0c;
+  border-bottom: 2px solid #f37c0c;
+}
+
+.tag-item {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.selected-tag {
+  color: #f37c0c;
+  border-bottom: 2px solid #f37c0c;
+}

@@ -1,44 +1,64 @@
 <!--index.wxml-->
-<view class='container'>
-  <view wx:for='{{goods}}' wx:key="id">
-    <view class='good-item' data-id='{{item.id}}'>
-      <view class="logo_view">
-        <image mode="widthFix" src="{{item.image ? item.image : '../imgs/nodata.png'}}" />
-      </view>
-      <view class="detail">
-        <text>商品：{{item.name}}</text>
-        <view>
-          <span>价格：</span>
-          <span class='price-text'>{{item.currency}}{{item.price}}</span>
+<view>
+  <scroll-view scroll-x="{{true}}" style="background: #fff">
+    <view class='scroll-tab'>
+      <view wx:for='{{platforms}}' wx:key="id">
+        <view class='tab-item {{item.id == selectedTab && "selected-tab"}}' wx:if='{{item.upper_id == null}}' bindtap="changeTab" data-id="{{item.id}}">
+          {{item.name}}
         </view>
-        <text>更新时间：{{item.updated_at}}</text>
-      </view>
-      <view class="sub-container">
-        <image mode="widthFix" src="{{item.state == 'awake' ? '../imgs/sub.png' : '../imgs/tosub.png'}}" bindtap="subModal" data-id="{{item.id}}" data-statu="open"/>
       </view>
     </view>
-  </view>
- 
-  <view class="drawer_screen" bindtap="cancel" wx:if="{{showModalStatus}}"></view>
-  <view animation="{{animationData}}" class="drawer_box" wx:if="{{showModalStatus}}">
-    <view class="drawer_title">订阅商品</view>
-    <view class="top grid">
-      <label class="title">订阅价格：</label>
-      <label class="currency">{{goods[selectedGoodId].currency}}</label>
-      <input class="input_base input_h30" type="digit" name="rName" value="{{taskValue}}" bindinput="onTaskInputChange"></input>
+  </scroll-view>
+  <view class='container'>
+    <scroll-view wx:if='{{selectedTab != selectedTag}}' scroll-x="{{true}}" style="background: #fff; margin-top: 10px;">
+      <view class='scroll-tag'>
+        <view wx:for='{{platforms}}' wx:key="id">
+          <view class='tab-item tag-item {{item.id == selectedTag && "selected-tag"}}' wx:if='{{item.upper_id != null}}' bindtap="changeTag" data-id="{{item.id}}">
+            {{item.name}}
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+    <view wx:for='{{goods}}' wx:key="id">
+      <view wx:if='{{item.platform_id == selectedTag}}' class='good-item' data-id='{{item.id}}'>
+        <view class="logo_view">
+          <image mode="widthFix" src="{{item.image ? item.image : '../imgs/nodata.png'}}" />
+        </view>
+        <view class="detail">
+          <text>商品：{{item.name}}</text>
+          <view>
+            <span>价格：</span>
+            <span class='price-text'>{{item.currency}}{{item.price}}</span>
+          </view>
+          <text>更新时间：{{item.updated_at}}</text>
+        </view>
+        <view class="sub-container">
+          <image mode="widthFix" src="{{item.state == 'awake' ? '../imgs/sub.png' : '../imgs/tosub.png'}}" bindtap="subModal" data-id="{{item.id}}" data-statu="open"/>
+        </view>
+      </view>
     </view>
-    <view class="tip">
-      <view>低于当前订阅价格，小程序会通知你</view>
-      <view>订阅通知有效期暂定为1周</view>
+  
+    <view class="drawer_screen" bindtap="cancel" wx:if="{{showModalStatus}}"></view>
+    <view animation="{{animationData}}" class="drawer_box" wx:if="{{showModalStatus}}">
+      <view class="drawer_title">订阅商品</view>
+      <view class="top grid">
+        <label class="title">订阅价格：</label>
+        <label class="currency">{{goods[selectedGoodId].currency}}</label>
+        <input class="input_base input_h30" type="digit" name="rName" value="{{taskValue}}" bindinput="onTaskInputChange"></input>
+      </view>
+      <view class="tip">
+        <view>低于当前订阅价格，小程序会通知你</view>
+        <view>订阅通知有效期暂定为1周</view>
+      </view>
+      <view class="btn-group">
+        <view class="btn cancel" bindtap="cancel" data-statu="close">取消</view>
+        <view class="btn unsub" bindtap="unsub">退订</view>
+        <view class="btn sub" bindtap="sub">订阅</view>
+      </view>
     </view>
-    <view class="btn-group">
-      <view class="btn cancel" bindtap="cancel" data-statu="close">取消</view>
-      <view class="btn unsub" bindtap="unsub">退订</view>
-      <view class="btn sub" bindtap="sub">订阅</view>
+    <view class="footer">
+      Power by Switch游戏速报
     </view>
-  </view>
-  <view class="footer">
-    Power by Switch游戏速报
   </view>
 </view>
 

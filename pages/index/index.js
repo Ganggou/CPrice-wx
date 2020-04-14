@@ -10,8 +10,10 @@ Page({
     userInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
+    platforms: {},
+    selectedTab: '',
+    selectedTag: '',
     goods: {},
-    platforms: [],
     tasks: {},
     self: {},
     selectedGoodId: "",
@@ -80,6 +82,7 @@ Page({
   },
   onShow: function() {
     this.fetchGoods()
+    this.fetchPlatforms()
   },
   tryLogin: function (looptime) {
     if (looptime > 3) {
@@ -114,6 +117,24 @@ Page({
       url: app.globalData.rootUrl + 'platforms',
       method: 'GET',
       success: function (res) {
+        if (res.data.ok) {
+          var platforms = res.data.data
+          var firstId = Object.keys(platforms)[0]
+          var firstPlatform = platforms[firstId]
+          var tab, tag
+          if (firstPlatform.upper_id != null) {
+            tab = firstPlatform.upper_id
+            tag = firstPlatform.id
+          } else {
+            tab = firstPlatform.id
+            tag = firstPlatform.id
+          }
+          that.setData({
+            platforms: platforms,
+            selectedTab: tab,
+            selectedTag: tag
+          })
+        }
       }
     })
   },
@@ -166,6 +187,30 @@ Page({
         }
       }
     })
+  },
+  changeTab: function(e) {
+    var platformId = e.currentTarget.dataset.id
+    if (platformId == this.data.selectedTab) {
+      return
+    }
+    var newTabId = platformId
+    var ids = Object.keys(this.data.platforms)
+    for (var i = 0; i < ids.length; i++) {
+      if (this.data.platforms[ids[i]].upper_id == newTabId) {
+        this.setData({
+          selectedTab: newTabId,
+          selectedTag: ids[i]
+        })
+        return
+      }
+    }
+    this.setData({
+      selectedTab: newTabId,
+      selectedTag: newTabId
+    })
+  },
+  changeTag: function () {
+
   },
   reloadTasks: function (tasks) {
     var tmp = {}
