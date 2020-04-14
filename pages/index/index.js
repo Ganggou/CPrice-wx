@@ -209,8 +209,10 @@ Page({
       selectedTag: newTabId
     })
   },
-  changeTag: function () {
-
+  changeTag: function (e) {
+    this.setData({
+      selectedTag: e.currentTarget.dataset.id
+    })
   },
   reloadTasks: function (tasks) {
     var tmp = {}
