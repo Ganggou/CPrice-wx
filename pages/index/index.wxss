@@ -3,7 +3,7 @@
 .container {
   margin-left: 2vw;
   margin-right: 2vw;
-  min-height: 100vh;
+  min-height: 85vh;
 }
 
 .good-item {
@@ -62,12 +62,12 @@
 
 .footer {
   width: 100%;
-  position: absolute;
   bottom: 10px;
   font-size: 12px;
   display: flex;
   justify-content: center;
   align-items: center;
+  padding-bottom: 10px;
 }
  
 /*mask*/

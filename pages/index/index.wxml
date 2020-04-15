@@ -56,9 +56,9 @@
         <view class="btn sub" bindtap="sub">订阅</view>
       </view>
     </view>
-    <view class="footer">
-      Power by Switch游戏速报
-    </view>
+  </view>
+  <view class="footer">
+    Power by Switch游戏速报
   </view>
 </view>
 
