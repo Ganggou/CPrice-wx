@@ -1,9 +1,56 @@
 /**index.wxss**/
+.header {
+  position: fixed;
+  background: #eee;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
 
 .container {
   margin-left: 2vw;
   margin-right: 2vw;
   min-height: 85vh;
+}
+
+.first-floor {
+  display: flex;
+  flex-direction: row;
+}
+
+.ticket-container {
+  width: 10%;
+  background: #fff;
+  display: flex;
+  align-items: center;
+}
+
+.ticket-button {
+  float: right;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  padding: 0px;
+  background-color: #fff;
+}
+
+.ticket-button::after {
+  border: 0;
+}
+
+.ticket-img {
+  width: 25px;
+  height: 25px;
+}
+
+.single-floor {
+  margin-top: 54px;
+}
+
+.double-floor {
+  margin-top: 101px;
 }
 
 .good-item {
