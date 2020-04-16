@@ -128,6 +128,12 @@ Page({
           } else {
             tab = firstPlatform.id
             tag = firstPlatform.id
+            var ids = Object.keys(platforms)
+            for (var i = 0; i < ids.length; i++) {
+              if (platforms[ids[i]].upper_id == firstPlatform.id) {
+                tag = ids[i]
+              }
+            }
           }
           that.setData({
             platforms: platforms,
@@ -281,6 +287,15 @@ Page({
           }
         }
         that.createTask()
+      }
+    })
+  },
+  copy: function(e) {
+    var that = this
+    wx.setClipboardData({
+      data: that.data.platforms[e.currentTarget.dataset.platform].url + e.currentTarget.dataset.id,
+      success: function (res) {
+        console.info(res)
       }
     })
   },
