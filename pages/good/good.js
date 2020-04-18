@@ -7,11 +7,18 @@ Page({
     logs: [],
     good: {},
     records: [],
-    goodId: ''
+    goodId: '',
+    toload: false
   },
   onLoad: function (options) {
     this.setData({ goodId: options.id })
     this.fetchGood(options.id)
+    this.setData({ toload: true })
+  },
+  onShow: function () {
+    if (this.data.toload) {
+      this.fetchGood(this.data.goodId)
+    }
   },
   fetchGood: function(gId) {
     var that = this
@@ -31,7 +38,9 @@ Page({
             good: good,
             records: records
           })
-          that.loadChart(good, records)
+          if (records.length > 0) {
+            that.loadChart(good, records)
+          }
         }
       }
     })
@@ -50,7 +59,7 @@ Page({
       canvasId: 'lineCanvas',
       type: 'line',
       categories: simulationData.categories,
-      animation: true,
+      animation: false,
       // background: '#f5f5f5',
       series: [{
         name: '价格',
@@ -81,7 +90,6 @@ Page({
   },
   touchHandler: function (e) {
     var that = this
-    console.log(lineChart.getCurrentDataIndex(e));
     lineChart.showToolTip(e, {
       // background: '#7cb5ec',
       format: function (item, category) {
@@ -90,7 +98,6 @@ Page({
     });
   },
   createSimulationData: function (records) {
-    console.info(records)
     var categories = [];
     var data = [];
     for (var i = 0; i < records.length ; i++) {

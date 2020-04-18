@@ -36,9 +36,12 @@
           </view>
           <view class="detail" data-id='{{item.id}}' bindtap="showGood">
             <text>商品：{{item.name}}</text>
-            <view>
+            <view wx:if='{{item.price !== -1}}'>
               <span>价格：</span>
               <span class='price-text'>{{item.currency}}{{item.price}}</span>
+            </view>
+            <view wx:else>
+              暂时无货
             </view>
             <text>更新时间：{{item.updated_at}}</text>
           </view>
