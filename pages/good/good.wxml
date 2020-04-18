@@ -1,0 +1,24 @@
+<view style="width: 100vw">
+  <view class="content">
+    <view class="header">
+      <view class="logo_view">
+        <image mode="widthFix" src="{{good.image ? good.image : '../imgs/nodata.png'}}" />
+      </view>
+      <view class="detail">
+        <text>{{good.name}}</text>
+        <view>
+          <span></span>
+          <span class='price-text'>{{good.currency}}{{good.price}}</span>
+        </view>
+        <text>更新时间：{{good.updated_at}}</text>
+      </view>
+    </view>
+    <view class="canvas-container" scroll-x="{{true}}">
+      <canvas canvas-id="lineCanvas" disable-scroll="true" class="canvas" bindtouchstart="touchHandler"></canvas>
+    </view>
+  </view>
+  <ad unit-id="adunit-8593866bd81497f3"></ad>
+  <view class="footer">
+    Power by Switch游戏速报
+  </view>
+</view>

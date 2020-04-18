@@ -3,8 +3,8 @@ App({
     loginStatus: false,
     token: '',
     self: null,
-    //rootUrl: 'https://www.tmdogs.xyz/',
-    rootUrl: 'http://localhost/',
+    rootUrl: 'https://www.tmdogs.xyz/',
+    //rootUrl: 'http://localhost/',
     wx_code: '',
     qiniuToken: '',
     qiniuHost: ''

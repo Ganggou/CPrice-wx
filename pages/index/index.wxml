@@ -31,10 +31,10 @@
     <view class='{{ selectedTab != selectedTag ? "double-floor" : "single-floor"}}'>
       <view wx:for='{{goods}}' wx:key="id">
         <view wx:if='{{item.platform_id == selectedTag}}' class='good-item' data-id='{{item.id}}'>
-          <view class="logo_view">
+          <view class="logo_view" data-id='{{item.id}}' bindtap="showGood">
             <image mode="widthFix" src="{{item.image ? item.image : '../imgs/nodata.png'}}" />
           </view>
-          <view class="detail">
+          <view class="detail" data-id='{{item.id}}' bindtap="showGood">
             <text>商品：{{item.name}}</text>
             <view>
               <span>价格：</span>
