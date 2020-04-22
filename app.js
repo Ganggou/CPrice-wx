@@ -5,6 +5,9 @@ App({
     self: null,
     rootUrl: 'https://www.tmdogs.xyz/',
     //rootUrl: 'http://localhost/',
+    selectedTab: '',
+    selectedTag: '',
+    tasks: {},
     wx_code: '',
     qiniuToken: '',
     qiniuHost: ''

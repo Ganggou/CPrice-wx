@@ -84,6 +84,27 @@ Page({
     this.fetchGoods()
     this.fetchPlatforms()
   },
+  onShareAppMessage: function (res) {
+    var name = '好价速报'
+    return {
+      title: name,
+      path: '/pages/index/index',
+      imageUrl: '/pages/imgs/share.png',
+      success: function (res) {
+        wx.showToast({
+          title: '转发成功',
+          icon: 'success'
+        })
+        // 转发成功
+      },
+      fail: function (res) {
+        wx.showToast({
+          title: '转发失败'
+        })
+        // 转发失败
+      }
+    }
+  },
   tryLogin: function (looptime) {
     if (looptime > 3) {
       return
@@ -122,7 +143,10 @@ Page({
           var firstId = Object.keys(platforms)[0]
           var firstPlatform = platforms[firstId]
           var tab, tag
-          if (firstPlatform.upper_id != null) {
+          if (app.globalData.selectedTab !== '' && app.globalData.selectedTag !== '') {
+            tab = app.globalData.selectedTab
+            tag = app.globalData.selectedTag
+          } else if (firstPlatform.upper_id != null) {
             tab = firstPlatform.upper_id
             tag = firstPlatform.id
           } else {
@@ -140,6 +164,8 @@ Page({
             selectedTab: tab,
             selectedTag: tag
           })
+          app.globalData.selectedTab = tab
+          app.globalData.selectedTag = tag
         }
       }
     })
@@ -207,6 +233,8 @@ Page({
           selectedTab: newTabId,
           selectedTag: ids[i]
         })
+        app.globalData.selectedTab = newTabId
+        app.globalData.selectedTag = ids[i]
         return
       }
     }
@@ -214,11 +242,14 @@ Page({
       selectedTab: newTabId,
       selectedTag: newTabId
     })
+    app.globalData.selectedTab = newTabId
+    app.globalData.selectedTag = newTabId
   },
   changeTag: function (e) {
     this.setData({
       selectedTag: e.currentTarget.dataset.id
     })
+    app.globalData.selectedTag = e.currentTarget.dataset.id
   },
   reloadTasks: function (tasks) {
     var tmp = {}

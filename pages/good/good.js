@@ -20,6 +20,26 @@ Page({
       this.fetchGood(this.data.goodId)
     }
   },
+  onShareAppMessage: function (res) {
+    var name = '好价速报'
+    return {
+      title: name,
+      path: '/pages/good/good?id=' + this.data.goodId,
+      success: function (res) {
+        wx.showToast({
+          title: '转发成功',
+          icon: 'success'
+        })
+        // 转发成功
+      },
+      fail: function (res) {
+        wx.showToast({
+          title: '转发失败'
+        })
+        // 转发失败
+      }
+    }
+  },
   fetchGood: function(gId) {
     var that = this
     wx.request({
