@@ -1,16 +1,31 @@
 <view style="width: 100vw">
   <view class="content">
     <view class="header">
-      <view class="logo_view">
-        <image mode="widthFix" src="{{good.image ? good.image : '../imgs/nodata.png'}}" />
+      <view class="row">
+        <view class="detail">
+          <text class="title">{{good.name}}</text>
+          <text>更新时间：{{good.updated_at}}</text>
+        </view>
+        <view class="logo_view">
+          <image mode="widthFix" src="{{good.image ? good.image : '../imgs/nodata.png'}}" />
+        </view>
       </view>
-      <view class="detail">
-        <text>{{good.name}}</text>
-        <view>
-          <span></span>
+      <view class="row">
+        <view class="price-container">
+          <view>当月最低</view>
+          <span class='price-text'>{{good.currency}}{{monthLowestRecord.price}}</span>
+        </view>
+        <view class="price-container">
+          <view>历史最低</view>
+          <span class='price-text'>{{good.currency}}{{lowestRecord.price}}</span>
+        </view>
+        <view class="price-container">
+          <view>当前价格</view>
           <span class='price-text'>{{good.currency}}{{good.price}}</span>
         </view>
-        <text>更新时间：{{good.updated_at}}</text>
+        <view wx:if='{{arrow !== ""}}'>
+          <image class="arrow" mode="widthFix" src='{{arrow}}' />
+        </view>
       </view>
     </view>
     <view class="canvas-container" scroll-x="{{true}}">

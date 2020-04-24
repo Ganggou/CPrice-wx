@@ -6,17 +6,19 @@ Page({
   data: {
     logs: [],
     good: {},
+    lowestRecord: {},
+    monthLowestRecord: {},
     records: [],
+    parsedRecords: {},
     goodId: '',
-    toload: false
+    arrow: ''
   },
   onLoad: function (options) {
     this.setData({ goodId: options.id })
     this.fetchGood(options.id)
-    this.setData({ toload: true })
   },
   onShow: function () {
-    if (this.data.toload) {
+    if (this.data.good == {}) {
       this.fetchGood(this.data.goodId)
     }
   },
@@ -51,6 +53,8 @@ Page({
       success(res) {
         if (res.data.ok) {
           var good = res.data.good
+          var lowest = res.data.lowest
+          var monthLowest = res.data.month_lowest
           var records = res.data.records
           good.updated_at = util.formatTime(new Date(good.updated_at))
           good.price /= 100.0
@@ -60,6 +64,18 @@ Page({
           })
           if (records.length > 0) {
             that.loadChart(good, records)
+          }
+          if (lowest) {
+            lowest.price /= 100.0
+            that.setData({
+              lowestRecord: lowest
+            })
+          }
+          if (monthLowest) {
+            monthLowest.price /= 100.0
+            that.setData({
+              monthLowestRecord: monthLowest
+            })
           }
         }
       }
@@ -113,17 +129,33 @@ Page({
     lineChart.showToolTip(e, {
       // background: '#7cb5ec',
       format: function (item, category) {
-        return util.formatTime(new Date(that.data.records[category].created_at)) + ' ' + item.name + ':' + item.data
+        return util.formatTime(new Date(that.data.parsedRecords[category].created_at)) + ' ' + item.name + ':' + item.data
       }
     });
   },
   createSimulationData: function (records) {
     var categories = [];
     var data = [];
+    var parsed = {};
+    var arrowState = '';
     for (var i = 0; i < records.length ; i++) {
-      categories.push(i);
-      data.push(records[i].price / 100.0);
+      var formatTime = util.shortFormat(new Date(records[i].updated_at))
+      if (!categories.includes(formatTime)) {
+        categories.push(formatTime);
+        data.push(records[i].price / 100.0);
+        parsed[formatTime] = records[i];
+      }
     }
+    if (categories.length > 1) {
+      if (data[data.length - 1] - data[data.length - 2] > 0) {
+        arrowState = '../imgs/raise.png'
+      }
+      if (data[data.length - 1] - data[data.length - 2] < 0) {
+        arrowState = '../imgs/down.png'
+      }
+    }
+    console.info(arrowState)
+    this.setData({ parsedRecords: parsed, arrow: arrowState })
     return {
       categories: categories,
       data: data
