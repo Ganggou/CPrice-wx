@@ -13,15 +13,15 @@
       <view class="row">
         <view class="price-container">
           <view>当月最低</view>
-          <span class='price-text'>{{good.currency}}{{monthLowestRecord.price}}</span>
+          <span class='price-text'>{{monthLowestRecord.price}}</span>
         </view>
         <view class="price-container">
           <view>历史最低</view>
-          <span class='price-text'>{{good.currency}}{{lowestRecord.price}}</span>
+          <span class='price-text'>{{lowestRecord.price}}</span>
         </view>
         <view class="price-container">
           <view>当前价格</view>
-          <span class='price-text'>{{good.currency}}{{good.price}}</span>
+          <span class='price-text'>{{good.price}}</span>
         </view>
         <view wx:if='{{arrow !== ""}}'>
           <image class="arrow" mode="widthFix" src='{{arrow}}' />

@@ -6,8 +6,8 @@ Page({
   data: {
     logs: [],
     good: {},
-    lowestRecord: {},
-    monthLowestRecord: {},
+    lowestRecord: { price: '暂无' },
+    monthLowestRecord: { price: '暂无' },
     records: [],
     parsedRecords: {},
     goodId: '',
@@ -57,7 +57,11 @@ Page({
           var monthLowest = res.data.month_lowest
           var records = res.data.records
           good.updated_at = util.formatTime(new Date(good.updated_at))
-          good.price /= 100.0
+          if (good.price == -1 || good.price == null) {
+            good.price = "无货"
+          } else {
+            good.price = good.currency + good.price / 100.0
+          }
           that.setData({
             good: good,
             records: records
@@ -66,13 +70,13 @@ Page({
             that.loadChart(good, records)
           }
           if (lowest) {
-            lowest.price /= 100.0
+            lowest.price = good.currency + lowest.price / 100.0
             that.setData({
               lowestRecord: lowest
             })
           }
           if (monthLowest) {
-            monthLowest.price /= 100.0
+            monthLowest.price = good.currency + monthLowest.price / 100.0
             that.setData({
               monthLowestRecord: monthLowest
             })

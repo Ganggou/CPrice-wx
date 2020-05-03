@@ -182,6 +182,9 @@ Page({
           for (var i = 0; i < goods.length; i++) {
             goods[i].updated_at = util.formatTime(new Date(goods[i].updated_at))
             goods[i].price /= 100.0
+            if ((i + 1) % 8 == 0) {
+              goods[i]['ads'] = true
+            }
             tmp[goods[i].id] = goods[i]
           }
           that.setData({

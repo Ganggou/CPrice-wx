@@ -30,24 +30,31 @@
   <view class='container'>
     <view class='{{ selectedTab != selectedTag ? "double-floor" : "single-floor"}}'>
       <view wx:for='{{goods}}' wx:key="id">
-        <view wx:if='{{item.platform_id == selectedTag}}' class='good-item' data-id='{{item.id}}'>
-          <view class="logo_view" data-id='{{item.id}}' bindtap="showGood">
-            <image mode="widthFix" src="{{item.image ? item.image : '../imgs/nodata.png'}}" />
-          </view>
-          <view class="detail" data-id='{{item.id}}' bindtap="showGood">
-            <text>商品：{{item.name}}</text>
-            <view wx:if='{{item.price !== -1}}'>
-              <span>价格：</span>
-              <span class='price-text'>{{item.currency}}{{item.price}}</span>
+        <view wx:if='{{item.platform_id == selectedTag}}'>
+          <view class='good-item' data-id='{{item.id}}'>
+            <view class="logo_view" data-id='{{item.id}}' bindtap="showGood">
+              <image mode="widthFix" src="{{item.image ? item.image : '../imgs/nodata.png'}}" />
             </view>
-            <view wx:else>
-              暂时无货
+            <view class="detail" data-id='{{item.id}}' bindtap="showGood">
+              <text>商品：{{item.name}}</text>
+              <view wx:if='{{item.price !== -0.01}}'>
+                <span>价格：</span>
+                <span class='price-text'>{{item.currency}}{{item.price}}</span>
+              </view>
+              <view wx:else class='price-text'>
+                暂时无货
+              </view>
+              <text>更新时间：{{item.updated_at}}</text>
             </view>
-            <text>更新时间：{{item.updated_at}}</text>
+            <view class="sub-container">
+              <image mode="widthFix" src="{{item.state == 'awake' ? '../imgs/sub.png' : '../imgs/tosub.png'}}" bindtap="subModal" data-id="{{item.id}}" data-statu="open"/>
+              <image mode="widthFix" src="../imgs/copy.png" bindtap="copy" data-id="{{item.short_id}}" data-platform="{{item.platform_id}}"/>
+            </view>
           </view>
-          <view class="sub-container">
-            <image mode="widthFix" src="{{item.state == 'awake' ? '../imgs/sub.png' : '../imgs/tosub.png'}}" bindtap="subModal" data-id="{{item.id}}" data-statu="open"/>
-            <image mode="widthFix" src="../imgs/copy.png" bindtap="copy" data-id="{{item.short_id}}" data-platform="{{item.platform_id}}"/>
+          <view wx:if='{{item.ads === true}}'>
+            <view class="good-item">
+              <ad unit-id="adunit-8593866bd81497f3"></ad>
+            </view>
           </view>
         </view>
       </view>
