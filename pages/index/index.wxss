@@ -273,6 +273,8 @@ radio{
 .tag-item {
   font-size: 12px;
   font-weight: 500;
+  min-width: 80px;
+  text-align: center;
 }
 
 .selected-tag {
