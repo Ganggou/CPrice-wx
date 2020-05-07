@@ -27,7 +27,8 @@
       </view>
     </scroll-view>
   </view>
-  <view class='container'>
+
+  <scroll-view class='container' scroll-y='true' bindscrolltolower="fetchMore" lower-threshold="100">
     <view class='{{ selectedTab != selectedTag ? "double-floor" : "single-floor"}}'>
       <view wx:for='{{goods}}' wx:key="id">
         <view wx:if='{{item.platform_id == selectedTag}}'>
@@ -58,29 +59,29 @@
           </view>
         </view>
       </view>
-    
-      <view class="drawer_screen" bindtap="cancel" wx:if="{{showModalStatus}}"></view>
-      <view animation="{{animationData}}" class="drawer_box" wx:if="{{showModalStatus}}">
-        <view class="drawer_title">订阅商品</view>
-        <view class="top grid">
-          <label class="title">订阅价格：</label>
-          <label class="currency">{{goods[selectedGoodId].currency}}</label>
-          <input class="input_base input_h30" type="digit" name="rName" value="{{taskValue}}" bindinput="onTaskInputChange"></input>
-        </view>
-        <view class="tip">
-          <view>低于当前订阅价格，小程序会通知你</view>
-          <view>订阅通知后需要补订</view>
-        </view>
-        <view class="btn-group">
-          <view class="btn cancel" bindtap="cancel" data-statu="close">取消</view>
-          <view class="btn unsub" bindtap="unsub">退订</view>
-          <view class="btn sub" bindtap="sub">订阅</view>
-        </view>
-      </view>
     </view>
-  </view>
+  </scroll-view>
+
   <view class="footer">
     Power by Switch游戏速报
+  </view>
+  <view class="drawer_screen" bindtap="cancel" wx:if="{{showModalStatus}}"></view>
+  <view animation="{{animationData}}" class="drawer_box" wx:if="{{showModalStatus}}">
+    <view class="drawer_title">订阅商品</view>
+    <view class="top grid">
+      <label class="title">订阅价格：</label>
+      <label class="currency">{{goods[selectedGoodId].currency}}</label>
+      <input class="input_base input_h30" type="digit" name="rName" value="{{taskValue}}" bindinput="onTaskInputChange"></input>
+    </view>
+    <view class="tip">
+      <view>低于当前订阅价格，小程序会通知你</view>
+      <view>订阅通知后需要补订</view>
+    </view>
+    <view class="btn-group">
+      <view class="btn cancel" bindtap="cancel" data-statu="close">取消</view>
+      <view class="btn unsub" bindtap="unsub">退订</view>
+      <view class="btn sub" bindtap="sub">订阅</view>
+    </view>
   </view>
 </view>
 

@@ -14,6 +14,7 @@ Page({
     selectedTab: '',
     selectedTag: '',
     goods: {},
+    goodsFlag: {},
     tasks: {},
     self: {},
     selectedGoodId: "",
@@ -81,8 +82,8 @@ Page({
     that.fetchTemplateids()
   },
   onShow: function() {
-    this.fetchGoods()
     this.fetchPlatforms()
+    this.fetchGoods()
   },
   onShareAppMessage: function (res) {
     var name = '好价速报'
@@ -173,22 +174,32 @@ Page({
   fetchGoods: function() {
     var that = this
     wx.request({
-      url: app.globalData.rootUrl + 'goods',
+      url: app.globalData.rootUrl + 'goods/hash_by_p',
       method: 'GET',
       success: function (res) {
         if (res.data.ok) {
-          var goods = res.data.data
+          var data = res.data.data
+          var platforms = Object.keys(data)
           var tmp = {}
-          for (var i = 0; i < goods.length; i++) {
-            goods[i].updated_at = util.formatTime(new Date(goods[i].updated_at))
-            goods[i].price /= 100.0
-            if ((i + 1) % 8 == 0) {
-              goods[i]['ads'] = true
+          var flag = {}
+          var i, j, goods
+          for (j = 0; j < platforms.length; j++) {
+            goods = data[platforms[j]]
+            for (i = 0; i < goods.length; i++) {
+              goods[i].updated_at = util.formatTime(new Date(goods[i].updated_at))
+              goods[i].price /= 100.0
+              if (i % 10 == 9) {
+                goods[i]['ads'] = true
+              }
+              tmp[goods[i].id] = goods[i]
             }
-            tmp[goods[i].id] = goods[i]
+            if (i > 0) {
+              flag[platforms[j]] = goods[i - 1].id
+            }
           }
           that.setData({
-            goods: tmp
+            goods: tmp,
+            goodsFlag: flag
           })
           that.fetchTasks()
         }
@@ -253,6 +264,44 @@ Page({
       selectedTag: e.currentTarget.dataset.id
     })
     app.globalData.selectedTag = e.currentTarget.dataset.id
+  },
+  fetchMore: function () {
+    console.info("fetch")
+    var that = this
+    if (!that.data.goodsFlag.hasOwnProperty(that.data.selectedTag)) {
+      return
+    }
+    wx.request({
+      url: app.globalData.rootUrl + 'goods/fetch',
+      method: 'GET',
+      data: {
+        pid: that.data.selectedTag,
+        id: that.data.goodsFlag[that.data.selectedTag]
+      },
+      success(res) {
+        if (res.data.ok) {
+          var goods = res.data.data
+          var tmp = that.data.goods
+          var flag = that.data.goodsFlag
+          var i
+          for (i = 0; i < goods.length; i++) {
+            goods[i].updated_at = util.formatTime(new Date(goods[i].updated_at))
+            goods[i].price /= 100.0
+            if (i % 10 == 9) {
+              goods[i]['ads'] = true
+            }
+            tmp[goods[i].id] = goods[i]
+          }
+          if (i > 0) {
+            flag[that.data.selectedTag] = goods[i - 1].id
+          }
+          that.setData({
+            goods: tmp,
+            goodsFlag: flag
+          })
+        }
+      }
+    })
   },
   reloadTasks: function (tasks) {
     var tmp = {}
