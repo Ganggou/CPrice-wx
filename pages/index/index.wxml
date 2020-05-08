@@ -28,7 +28,7 @@
     </scroll-view>
   </view>
 
-  <scroll-view class='container' scroll-y='true' bindscrolltolower="fetchMore" lower-threshold="100">
+  <scroll-view class='container' scroll-y='true' scroll-top='{{topNum}}' bindscrolltolower="fetchMore" lower-threshold="100">
     <view class='{{ selectedTab != selectedTag ? "double-floor" : "single-floor"}}'>
       <view wx:for='{{goods}}' wx:key="id">
         <view wx:if='{{item.platform_id == selectedTag}}'>

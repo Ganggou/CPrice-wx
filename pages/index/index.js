@@ -20,7 +20,8 @@ Page({
     selectedGoodId: "",
     taskValue: null,
     showModalStatus: false,
-    tmpIds: []
+    tmpIds: [],
+    topNum: 0
   },
   onLoad: function() {
     var that = this
@@ -254,7 +255,8 @@ Page({
     }
     this.setData({
       selectedTab: newTabId,
-      selectedTag: newTabId
+      selectedTag: newTabId,
+      topNum: 0
     })
     app.globalData.selectedTab = newTabId
     app.globalData.selectedTag = newTabId
@@ -264,7 +266,8 @@ Page({
       title: '加载中',
     })
     this.setData({
-      selectedTag: e.currentTarget.dataset.id
+      selectedTag: e.currentTarget.dataset.id,
+      topNum: 0
     })
     app.globalData.selectedTag = e.currentTarget.dataset.id
     setTimeout(function () {
