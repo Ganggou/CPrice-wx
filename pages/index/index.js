@@ -260,17 +260,25 @@ Page({
     app.globalData.selectedTag = newTabId
   },
   changeTag: function (e) {
+    wx.showLoading({
+      title: '加载中',
+    })
     this.setData({
       selectedTag: e.currentTarget.dataset.id
     })
     app.globalData.selectedTag = e.currentTarget.dataset.id
+    setTimeout(function () {
+      wx.hideLoading()
+    }, 500)
   },
   fetchMore: function () {
-    console.info("fetch")
     var that = this
     if (!that.data.goodsFlag.hasOwnProperty(that.data.selectedTag)) {
       return
     }
+    wx.showLoading({
+      title: '加载中',
+    })
     wx.request({
       url: app.globalData.rootUrl + 'goods/fetch',
       method: 'GET',
@@ -294,11 +302,16 @@ Page({
           }
           if (i > 0) {
             flag[that.data.selectedTag] = goods[i - 1].id
+          } else {
+            delete flag[that.data.selectedTag]
           }
           that.setData({
             goods: tmp,
             goodsFlag: flag
           })
+          setTimeout(function () {
+            wx.hideLoading()
+          }, 200)
         }
       }
     })
