@@ -1,12 +1,3 @@
-/**index.wxss**/
-.header {
-  position: fixed;
-  background: #eee;
-  width: 100%;
-  top: 0;
-  left: 0;
-  z-index: 999;
-}
 
 .container {
   margin-left: 2vw;
@@ -15,44 +6,37 @@
   margin-bottom: 2vh;
 }
 
-.first-floor {
+.search-container {
+  padding-top: 20px;
+  padding-bottom: 10px;
+  padding-left: 2vw;
+  padding-right: 2vw;
   display: flex;
   flex-direction: row;
-}
-
-.ticket-container {
-  width: 20%;
   background: #fff;
-  display: flex;
-  align-items: center;
 }
 
-.ticket-button {
-  float: right;
+.search {
+  width: 85vw;
+  height: 7vw;
+  background: #fff;
+  border-radius: 5px;
+  padding-left: 3px;
+  padding-right: 3px;
+  border: 1px solid #000;
+}
+
+.button-container {
+  margin-left: 3vw;
+  width: 7vw;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 26px;
-  height: 26px;
-  padding: 0px;
-  background-color: #fff;
 }
 
-.ticket-button::after {
-  border: 0;
-}
-
-.ticket-img {
-  width: 25px;
-  height: 25px;
-}
-
-.single-floor {
-  margin-top: 54px;
-}
-
-.double-floor {
-  margin-top: 101px;
+.img {
+  width: 7vw;
+  height: 7vw;
 }
 
 .good-item {
@@ -68,7 +52,7 @@
 }
 
 .good-item view:first-child {
-  width: 20vw;  
+  width: 20vw;
 }
 
 .logo_view {
@@ -247,37 +231,3 @@ radio{
 .grid { display: -webkit-box; display: box; }
 .fl { float: left;}
 .fr { float: right;}
-    
-.scroll-tab {
-  display: flex;
-  flex-direction: row;
-}
-
-.scroll-tag {
-  display: flex;
-  flex-direction: row;
-  border-radius: 5px;
-}
-
-.tab-item {
-  padding: 10px;
-  margin: 0 10px;
-  font-weight: 500;
-}
-
-.selected-tab {
-  color: #f37c0c;
-  border-bottom: 2px solid #f37c0c;
-}
-
-.tag-item {
-  font-size: 12px;
-  font-weight: 500;
-  min-width: 80px;
-  text-align: center;
-}
-
-.selected-tag {
-  color: #f37c0c;
-  border-bottom: 2px solid #f37c0c;
-}

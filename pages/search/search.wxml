@@ -1,0 +1,51 @@
+<view>
+  <view class="search-container">
+    <input class="search" value="{{keyword}}" bindinput="onKeywordChange"></input>
+    <view class="button-container">
+      <image class='img' src='../imgs/search.png' bindtap="search"></image>
+    </view>
+  </view>
+  <view class='container'>
+    <view wx:for='{{goods}}' wx:key="id">
+      <view class='good-item' data-id='{{item.id}}'>
+        <view class="logo_view" data-id='{{item.id}}' bindtap="showGood">
+          <image mode="widthFix" src="{{item.image ? item.image : '../imgs/nodata.png'}}" />
+        </view>
+        <view class="detail" data-id='{{item.id}}' bindtap="showGood">
+          <text>商品：{{item.name}}</text>
+          <view wx:if='{{item.price !== -0.01}}'>
+            <span>价格：</span>
+            <span class='price-text'>{{item.currency}}{{item.price}}</span>
+          </view>
+          <view wx:else class='price-text'>
+            暂时无货
+          </view>
+          <text>更新时间：{{item.updated_at}}</text>
+        </view>
+        <view class="sub-container">
+          <image mode="widthFix" src="{{item.state == 'awake' ? '../imgs/sub.png' : '../imgs/tosub.png'}}" bindtap="subModal" data-id="{{item.id}}" data-statu="open"/>
+          <image mode="widthFix" src="../imgs/copy.png" bindtap="copy" data-id="{{item.short_id}}" data-platform="{{item.platform_id}}"/>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="drawer_screen" bindtap="cancel" wx:if="{{showModalStatus}}"></view>
+  <view animation="{{animationData}}" class="drawer_box" wx:if="{{showModalStatus}}">
+    <view class="drawer_title">订阅商品</view>
+    <view class="top grid">
+      <label class="title">订阅价格：</label>
+      <label class="currency">{{goods[selectedGoodId].currency}}</label>
+      <input class="input_base input_h30" type="digit" name="rName" value="{{taskValue}}" bindinput="onTaskInputChange"></input>
+    </view>
+    <view class="tip">
+      <view>低于当前订阅价格，小程序会通知你</view>
+      <view>订阅通知后需要补订</view>
+    </view>
+    <view class="btn-group">
+      <view class="btn cancel" bindtap="cancel" data-statu="close">取消</view>
+      <view class="btn unsub" bindtap="unsub">退订</view>
+      <view class="btn sub" bindtap="sub">订阅</view>
+    </view>
+  </view>
+</view>

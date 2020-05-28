@@ -429,6 +429,11 @@ Page({
       url: '../good/good?id=' + e.currentTarget.dataset.id
     })
   },
+  toSearch: function () {
+    wx.navigateTo({
+      url: '../search/search'
+    })
+  },
   powerDrawer: function (status) {
     var currentStatu = status;
     this.util(currentStatu)

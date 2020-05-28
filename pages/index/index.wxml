@@ -2,7 +2,7 @@
 <view>
   <view class='header'>
     <view class='first-floor'>
-      <scroll-view scroll-x="{{true}}" style="background: #fff; width: 90%;">
+      <scroll-view scroll-x="{{true}}" style="background: #fff; width: 80%;">
         <view class='scroll-tab'>
           <view wx:for='{{platforms}}' wx:key="id">
             <view class='tab-item {{item.id == selectedTab && "selected-tab"}}' wx:if='{{item.upper_id == null}}' bindtap="changeTab" data-id="{{item.id}}">
@@ -12,6 +12,9 @@
         </view>
       </scroll-view>
       <view class='ticket-container'>
+        <button class='ticket-button' bindtap="toSearch">
+          <image class='ticket-img' src='../imgs/search.png'></image>
+        </button>
         <button class='ticket-button' open-type="contact">
           <image open-type="contact" class='ticket-img' src='../imgs/ticket.png'></image>
         </button>
